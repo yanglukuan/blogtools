@@ -6,3 +6,5 @@ node_modules/
 public/
 .deploy*/
 deploy/
+/package.json
+/scaffolds
