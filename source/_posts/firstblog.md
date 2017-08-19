@@ -8,7 +8,7 @@ categories: Hexo
 ### GitHub 设置
    创建新的仓库  `yourname.github.io`  
    `yourname` 就是你github的名字  
-   GitHub 设置
+   GitHub 
 ### 安装Hexo
    [http://www.jianshu.com/p/b8dd1e3e0255](http://www.jianshu.com/p/b8dd1e3e0255)
 
