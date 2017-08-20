@@ -10,7 +10,7 @@ categories: 代码质量
    2.支持多种平台（Windows、Linux）和多种开发语言(java、C#、JavaScript、PHP等),并可以和Jekins、JIRA等多种外部工具和IntelliJ IDEA等开发工具无缝集成。
    3.可视化界面，提供各种维度的质量查询和分析。
 ## 如何使用
-  ### **1.准备工作**
+  **1.准备工作**
    - 下载软件
    SonarQube [https://www.sonarqube.org/downloads/](https://www.sonarqube.org/downloads/)
    规则插件 checkstyle  [https://github.com/checkstyle/sonar-checkstyle](https://github.com/checkstyle/sonar-checkstyle) 
@@ -48,9 +48,10 @@ categories: 代码质量
    - 启动
    至此,启动mysql,启动sonarqube,本地访问 `http://localhost:9000/ `
    可看到管理界面
-   登录名\密码   admin\admin  
+   登录名\密码   admin\admin
 
-### **2.扫描配置**
+
+  **2.扫描配置**
  - maven扫描 配置
    maven配置文件添加节点
 ```xml
