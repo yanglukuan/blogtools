@@ -6,26 +6,26 @@ categories: 代码质量
 ---
     
 ## SonarQube是神马
-   1.SonarQube（又叫Sonar）是对代码进行静态检测的开源平台,利用这个工具可以发现我们代码里各种隐藏的Bug和潜在的问     题，在团队协作的开发模式中可以更好的控制代码质量。
-   2.支持多种平台（Windows、Linux）和多种开发语言(java、C#、JavaScript、PHP等),并可以和Jekins、JIRA等多种外部工具和IntelliJ IDEA等开发工具无缝集成。
+   1.`SonarQube（又叫Sonar）`是对代码进行静态检测的开源平台,利用这个工具可以发现我们代码里各种隐藏的Bug和潜在的问     题，在团队协作的开发模式中可以更好的控制代码质量。
+   2.支持多种平台`（Windows、Linux）`和多种开发语言`(java、C#、JavaScript、PHP等)`,并可以和`Jekins、JIRA`等多种外部工具和`IntelliJ IDEA`等开发工具无缝集成。
    3.可视化界面，提供各种维度的质量查询和分析。
 ## 如何使用
-  **1.准备工作**
+  ### **准备工作**
    - 下载软件
-   SonarQube [https://www.sonarqube.org/downloads/](https://www.sonarqube.org/downloads/)
-   规则插件 checkstyle  [https://github.com/checkstyle/sonar-checkstyle](https://github.com/checkstyle/sonar-checkstyle) 
-   pmd [https://github.com/SonarQubeCommunity/sonar-pmd](https://github.com/SonarQubeCommunity/sonar-pmd)
-   findbugs [https://github.com/SonarQubeCommunity/sonar-findbugs](https://github.com/SonarQubeCommunity/sonar-findbugs)
-   汉化插件 sonar-l10n-zh-master [https://github.com/SonarQubeCommunity/sonar-l10n-zh](https://github.com/SonarQubeCommunity/sonar-l10n-zh)
-   本地扫描插件 sonar-runner-dist-2.4 [http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/](http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/)   
+   `SonarQube` [https://www.sonarqube.org/downloads/](https://www.sonarqube.org/downloads/)
+   规则插件 `checkstyle`  [https://github.com/checkstyle/sonar-checkstyle](https://github.com/checkstyle/sonar-checkstyle) 
+   `pmd` [https://github.com/SonarQubeCommunity/sonar-pmd](https://github.com/SonarQubeCommunity/sonar-pmd)
+   `findbugs` [https://github.com/SonarQubeCommunity/sonar-findbugs](https://github.com/SonarQubeCommunity/sonar-findbugs)
+   汉化插件 `sonar-l10n-zh-master` [https://github.com/SonarQubeCommunity/sonar-l10n-zh](https://github.com/SonarQubeCommunity/sonar-l10n-zh)
+   本地扫描插件 `sonar-runner-dist-2.4` [http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/](http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/)   
    **以上插件均是源码 需要下载后自行编译**
    - 所需环境
-   JDK1.7或以上
-   Maven
-   Mysql
+   `JDK1.7`或以上
+   `Maven`
+   `Mysql`
    - 配置
-    a.sonarqube 配置     
-    sonar.properties内容
+    a.`sonarqube\conf` 配置     
+    `sonar.properties`内容
    ```xml
    sonar.jdbc.username=sonar
    sonar.jdbc.password=sonar
@@ -40,20 +40,20 @@ categories: 代码质量
    GRANT ALL ON sonar.* TO 'sonar'@'localhost' IDENTIFIED BY 'sonar';
    FLUSH PRIVILEGES;
    ```
-      - mysql max_allowed_packet配置
+      - `mysql max_allowed_packet`配置
    路径 `C:\ProgramData\MySQL\MySQL Server 5.6\my.ini `  
    设置 `max_allowed_packet=101943040`
    - 插件编译 安装
-   分别编译下载的插件,去掉snapshort标记,放入插件目录下sonarqube-6.4\extensions\plugins
+   分别编译下载的插件,去掉`snapshort`标记,放入插件目录下`sonarqube-6.4\extensions\plugins`
    - 启动
-   至此,启动mysql,启动sonarqube,本地访问 `http://localhost:9000/ `
+   至此,启动mysql,启动`sonarqube`,本地访问 `http://localhost:9000/ `
    可看到管理界面
-   登录名\密码   admin\admin
+   登录名\密码   `admin\admin`
 
+### **扫描配置**
 
-  **2.扫描配置**
- - maven扫描 配置
-   maven配置文件添加节点
+ - `maven`扫描 配置
+   `maven`配置文件添加节点
 ```xml
   <profile>
    <id>sonar</id>
@@ -74,9 +74,9 @@ categories: 代码质量
    </properties>
   </profile>
 ```
-   执行maven命令``mvn sonar:sonar` 可扫描项目并上传质量报告
+   执行maven命令`mvn sonar:sonar` 可扫描项目并上传质量报告
 
- - sonar-runner 扫描配置  
+ - `sonar-runner` 扫描配置  
   a.环境变量配置
    系统环境变量
    ``` 
@@ -119,8 +119,8 @@ categories: 代码质量
    sonar-project.properties配置文件
 
    ```xml
-   sonar.projectKey=online 
-   sonar.projectName=online
+   sonar.projectKey=projectKey 
+   sonar.projectName=projectName
    sonar.projectVersion=1.0
    # Set modules IDs
    sonar.modules=projectmodules
