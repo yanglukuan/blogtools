@@ -1,3 +1,4 @@
+hexo clean
 hexo generate
 cp -R public/* deploy/yanglukuan.github.io
 cd deploy/yanglukuan.github.io
