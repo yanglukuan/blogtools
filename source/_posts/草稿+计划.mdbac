@@ -81,11 +81,32 @@ http://www.cnblogs.com/zhangz721/archive/2009/10/02/1577316.html
 
 
 
-## 集合框架 String
+## 集合框架 HashMap等
+
+## HashMap
+无序性
+哈希表查找快速 在key未发生冲突的情况下 时间复杂度O(1)
+
+Hash 知识
+
+Hash 函数  
+哈希函数：一般情况下，需要在关键字与它在表中的存储位置之间建立一个函数关系，以f(key)作为关键字为key的记录在表中的位置，通常称这个函数f(key)为哈希函数。
+
+Hash 碰撞
+解决碰撞 链地址法和开地址法
+
+1.8 数据结构是采用数组+链表+红黑树实现
+http://zhengjianglong.leanote.com/post/%E9%87%8D%E6%96%B0%E8%AE%A4%E8%AF%86HashMap
+
+## 各种apache.commons和utils的源码
+
+## String和各种string工具类
+
+## jvm 
 
 ## GC
 
-## 多线程
+## 多线程 
 
 ## Spring
 Spring 接管了对象创建和相互依赖管理的工作，把设计模式隐藏在框架的运用中，
@@ -113,3 +134,5 @@ http://liuxing.info/2016/01/05/Tomcat-Jdbc-Pool%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98
 https://waylau.com/tcp-connect-and-close/
 
 ## 各种框架 框架原理 源码 
+
+## 剑指offer 算法 排序
