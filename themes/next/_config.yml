@@ -51,7 +51,7 @@ menu:
   about: /about/
   archives: /archives/
   tags: /tags/
-  #sitemap: /sitemap.xml
+  sitemap: /sitemap.xml
   #commonweal: /404/
 
 # Enable/Disable menu icons.
@@ -361,7 +361,7 @@ changyan:
 
 # Google Webmaster tools verification setting
 # See: https://www.google.com/webmasters/
-#google_site_verification:
+google_site_verification: true
 
 # Google Analytics
 #google_analytics:

@@ -33,7 +33,7 @@
 
 
 {% if theme.google_site_verification %}
-  <meta name="google-site-verification" content="{{ theme.google_site_verification }}" />
+  <meta name="google-site-verification" content="tcGzXHmj_nXK7gGlZREm6t6k7bfrGt6HkfEZbGVZR_8" />
 {% endif %}
 
 
