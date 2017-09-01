@@ -62,7 +62,8 @@ categories: Hexo
 hexo d 就可以完成发布，发布成功后，就可以在`https://yourname.github.io`看到自己更新的内容了，由于CDN缓存的缘故，有时候更新后要过一会才可以看到最新的内容。
 
 
-### 参考地址
+## 参考
+   http://theme-next.iissnan.com/getting-started.html#theme-settings
    [https://linghucong.js.org/2016/04/15/2016-04-15-hexo-github-pages-blog/](https://linghucong.js.org/2016/04/15/2016-04-15-hexo-github-pages-blog/)
    http://gitbeijing.com/pages.html
    [http://www.jianshu.com/p/b8dd1e3e0255](http://www.jianshu.com/p/b8dd1e3e0255)

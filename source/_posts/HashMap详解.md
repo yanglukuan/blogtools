@@ -14,9 +14,9 @@ categories: java
 <center>![Map接口类图](/images/hashmap/javacollections.png)</center><center>***Map接口类图***</center>
 
 (1) HashMap：它根据键的`hashCode`值存储数据，大多数情况下可以直接定位到它的值，因而具有很快的访问速度，但遍历顺序却是不确定的。 `HashMap`最多只允许一条记录的键为`null`，允许多条记录的值为`null`。`HashMap`非线程安全，即任一时刻可以有多个线程同时写`HashMap`，可能会导致数据的不一致。如果需要满足线程安全，可以用 `Collections`的`synchronizedMap`方法使`HashMap`具有线程安全的能力，或者使用`ConcurrentHashMap`。
-(2) `Hashtable`：`Hashtable`是遗留类，很多映射的常用功能与`HashMap`类似，不同的是它承自`Dictionary`类，并且是线程安全的，任一时间只有一个线程能写Hashtable，并发性不如`ConcurrentHashMap`，因为`ConcurrentHashMap`引入了分段锁。`Hashtable`不建议在新代码中使用，不需要线程安全的场合可以用`HashMap`替换，需要线程安全的场合可以用`ConcurrentHashMap`替换。
-(3) `LinkedHashMap`：`LinkedHashMap是HashMap`的一个子类，保存了记录的插入顺序，在用`Iterator`遍历`LinkedHashMap`时，先得到的记录肯定是先插入的，也可以在构造时带参数，按照访问次序排序。
-(4) `TreeMap`：`TreeMap`实现`SortedMap`接口，能够把它保存的记录根据键排序，默认是按键值的升序排序，也可以指定排序的比较器，当用`Iterator`遍历`TreeMap`时，得到的记录是排过序的。如果使用排序的映射，建议使用`TreeMap`。在使用`TreeMap`时，`key`必须实现`Comparable`接口或者在构造`TreeMap`传入自定义的`Comparator`，否则会在运行时抛出`java.lang.ClassCastException`类型的异常。
+(2) Hashtable：`Hashtable`是遗留类，很多映射的常用功能与`HashMap`类似，不同的是它承自`Dictionary`类，并且是线程安全的，任一时间只有一个线程能写Hashtable，并发性不如`ConcurrentHashMap`，因为`ConcurrentHashMap`引入了分段锁。`Hashtable`不建议在新代码中使用，不需要线程安全的场合可以用`HashMap`替换，需要线程安全的场合可以用`ConcurrentHashMap`替换。
+(3) LinkedHashMap：`LinkedHashMap是HashMap`的一个子类，保存了记录的插入顺序，在用`Iterator`遍历`LinkedHashMap`时，先得到的记录肯定是先插入的，也可以在构造时带参数，按照访问次序排序。
+(4) TreeMap：`TreeMap`实现`SortedMap`接口，能够把它保存的记录根据键排序，默认是按键值的升序排序，也可以指定排序的比较器，当用`Iterator`遍历`TreeMap`时，得到的记录是排过序的。如果使用排序的映射，建议使用`TreeMap`。在使用`TreeMap`时，`key`必须实现`Comparable`接口或者在构造`TreeMap`传入自定义的`Comparator`，否则会在运行时抛出`java.lang.ClassCastException`类型的异常。
 
 对于上述四种`Map`类型的类，要求映射中的key是不可变对象。不可变对象是该对象在创建后它的哈希值不会被改变。如果对象的哈希值发生变化，`Map`对象很可能就定位不到映射的位置了。
 
@@ -42,7 +42,7 @@ categories: java
 ### 数据结构
 ---
 `HashMap`实现了`Map`接口，继承`AbstractMap`。其中`Map`接口定义了键映射到值的规则，而`AbstractMap`类提供 `Map` 接口的骨干实现。`java`的`HashMap`结构上采用了数组链表方式，即数组+链表的数据结构，采用这种结构的原因是采用了链地址的方法解决哈希冲突。但是这样带来了一个问题，当某个链表达到一定的长度时，对于链表元素的查找会变成线性搜索，比较耗时。所以在`JDK1.8`的实现中做了优化，当链表的长度达到一定数量（`TREEIFY_THRESHOLD`默认值为8）时，会把链表转为红黑树，所以在`JDK1.8`的版本`HashMap`的数据结构为数组+链表+红黑树。
-在`HashMap`中，通过`Node[] table`，(`jdk 1.7`叫做`Entry`，`jdk 1.8`加入红黑树后改为`Node`,原因是和红黑树的实现`TreeNode`相关联)来实现该结构，继承自`Map.Entry`，该数组可以看做是一个哈希桶数组，每个桶中存放着一个链表，Node是链表节点,并实现了`Map.Entry`。`Node`节点存放一个键值对，同时存放一个指向下一个节点的引用。`Node`是键值对存储单元，通过`hash`值来确定该元素在数组链表中的位置。基于这个存储结构，我们也可以看出，`HashMap`是不保证顺序性的，也就是说遍历`HashMap`的时候，得到的元素的顺序与添加元素的顺序是不同的。
+在`HashMap`中，通过`Node[] table`，(`jdk 1.7`叫做`Entry`，`jdk 1.8`加入红黑树后改为`Node`,原因是和红黑树的实现`TreeNode`相关联)来实现该结构，该数组可以看做是一个哈希桶数组，每个桶中存放着一个链表，Node是链表节点,并实现了`Map.Entry`。`Node`节点存放一个键值对，同时存放一个指向下一个节点的引用。`Node`是键值对存储单元，通过`hash`值来确定该元素在数组链表中的位置。基于这个存储结构，我们也可以看出，`HashMap`是不保证存取的顺序性的，也就是说遍历`HashMap`的时候，得到的元素的顺序与添加元素的顺序是不同的。
 ```java
   Node结构源码
   static class Node<K,V> implements Map.Entry<K,V> {
@@ -109,18 +109,18 @@ HashMap(Map<? extendsK,? extendsV> m); //构造一个映射关系与指定 Map �
         if ((tab = table) == null || (n = tab.length) == 0)//1.判断是否table为空
             n = (tab = resize()).length;//扩容
         if ((p = tab[i = (n - 1) & hash]) == null)//2.根据hash值计算索引，(n - 1) & hash。判断该位置是否为空
-            tab[i] = newNode(hash, key, value, null);//插入新节点
-        else {
+            tab[i] = newNode(hash, key, value, null);//为空 插入新节点
+        else {//该位置不为空
             Node<K,V> e; K k;
-            if (p.hash == hash &&  //3.节点key存在 直接覆盖value
+            if (p.hash == hash &&  //3.判断该节点key是否存在 存在直接覆盖value
                 ((k = p.key) == key || (key != null && key.equals(k))))
-                e = p;
+                e = p; //存在直接覆盖value
             else if (p instanceof TreeNode) //4.判断是否为红黑树
                 e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);//红黑树 直接插入
             else { //5.链表操作
                 for (int binCount = 0; ; ++binCount) {
-                    if ((e = p.next) == null) {
-                        //插入新节点
+                    if ((e = p.next) == null) { //判断链表该节点是否有子节点
+                        //插入新节点（尾部插入）
                         p.next = newNode(hash, key, value, null);
                         if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
                             treeifyBin(tab, hash);
@@ -175,7 +175,7 @@ static int indexFor(int h, int length) {  //jdk1.7的源码，jdk1.8没有这个
 <center>![Hash计算方式](/images/hashmap/hashmaphash.png)</center><center>***Hash计算方式***</center>
 **5.插入元素**
 当元素定位的哈希桶是一个链表时，则采用尾插入法。首先从头遍历链表，根据`equals`和`hashCode`来比较`key`是否相同。因此作为`hashMap`的`key`必须同时重载`equals`方法和`hashCode`方法。
-`JDK 1.7`的链表操作采用了头插入法，即新的元素插入到链表头部。在J`DK1.8`中采用了尾插入法。插入以后如果链表长度大于8，那么就会将链表转换为红黑树。因为如果链表长度过长会导致元素的增删改查效率低下，呈现线性搜索时间。`JDK1.8`采用采用红黑树进行优化，进而提高`HashMap`性能。如果哈希桶是一个红黑树，则直接使用红黑树插入方式直接插入到红黑树中。
+`JDK 1.7`的链表操作采用了头插入法，即新的元素插入到链表头部。在`JDK1.8`中采用了尾插入法。插入以后如果链表长度大于8，那么就会将链表转换为红黑树。因为如果链表长度过长会导致元素的增删改查效率低下，呈现线性搜索时间。`JDK1.8`采用采用红黑树进行优化，进而提高`HashMap`性能。如果哈希桶是一个红黑树，则直接使用红黑树插入方式直接插入到红黑树中。
 **6.扩容**
 `JDK1.8`是在插入元素后判断是否进行扩容，而且扩容条件相对于`JDK1.7`有所变化。`JDK1.7`是在插入元素前判断是否需要扩容，不仅要求`size`大于等于`threshold`，同时需要`table[bucketIndex]`不为空时才进行扩容。扩容时新的容器容量是原来的两倍。`JDK1.8`对于扩容过程进行了优化，提高扩容性能。
 `JDK 1.7`是通过创建一个容量为原来两倍的新容器，然后遍历原来容器的所有元素并对每个元素重新计算一次在新容器的索引位置，然后插入到新容器中。
