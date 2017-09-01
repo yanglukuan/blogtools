@@ -4,12 +4,12 @@
 
 # Site
 title: kevin.yang
-subtitle:
+subtitle: 博闻强记
 description: 博闻强记
 author: kevin.yang
 language: zh-Hans
 timezone:
-
+keywords: java,后端,互联网,分布式
 
 # Schemes
 scheme: Gemini
@@ -32,7 +32,7 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
+skip_render: README.md
 
 # Writing
 new_post_name: :title.md # File name of new posts
