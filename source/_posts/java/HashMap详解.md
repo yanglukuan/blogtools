@@ -1,7 +1,7 @@
 ---
 title: Java集合框架之HashMap详解
 date: 2017-08-31 13:21:13
-tags: [HashMap,集合]
+tags: [Java,集合,HashMap]
 categories: java
 ---
 
