@@ -6,7 +6,7 @@ categories: java
 ---
 
 ## 基础扫盲
-
+本文基于jdk1.8介绍HashMap。
 ### java 集合框架
 ---
 `Java`的集合类主要由两个接口派生而出：`Collection`和`Map`，`Collection`和`Map`是`Java`集合框架的根接口，这两个接口又包含了一些接口或实现类。`Set`和`List`接口是`Collection`接口派生的两个子接口，`Queue`是`Java`提供的队列实现，类似于`List`。`Map`是一个映射接口，其中的每个元素都是一个`key-value`键值对，抽象类`AbstractMap`通过适配器模式实现了`Map`接口中的大部分函数，`TreeMap`、`HashMap`、`WeakHashMap`等实现类都通过继承`AbstractMap`来实现，另外，不常用的`HashTable`直接实现了Map接口。对于`Set`、`List`和`Map`三种集合，最常用的实现类分别是`HashSet`、`ArrayList`和`HashMap`三个实现类。
