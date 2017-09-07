@@ -9,7 +9,7 @@ description: 博闻强记
 author: kevin.yang
 language: zh-Hans
 timezone:
-keywords: java,后端,互联网,分布式
+#keywords: java,后端,互联网,分布式
 
 # Schemes
 scheme: Gemini
