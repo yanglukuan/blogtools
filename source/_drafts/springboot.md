@@ -31,7 +31,7 @@ categories: springboot
 1、工具准备
 `IntelliJ IDEA` 、`Maven`、 `JDK1.8`
 2、使用`IntelliJ IDEA`创建一个空的`Maven`项目，修改项目的`POM`文件，加入`Spring Boot`的依赖项。这里说明一下，`Spring Boot`有两种引入方式，一种是`parent`的方式，另一种是`dependency`方式。对于这两种方式，一般在公司的项目中，我们选用后者，因为大部分公司都使用自己公司的`Maven`私有仓库，也制定了一些`POM`文件的规范，规定了项目中只允许依赖一个规定的`parent`，(比如我厂)。这个时候我们只能使用`dependency`的方式引入。这里我们选用`parent`的方式引入，使用这种方式有一个很方便的地方，就是你可以很方便的更改内置容器`Tomcat`的版本，至于为什么要改，我们下面一部分再说。
-3、引入支持`Web`项目的`Starter pom`，这个`Starter pom`用来快速引入一些`Maven`的依赖项，比如我们要构建一个`Web`的项目，现在只需要添加一个`spring-boot-starter-web`的一个依赖，这个依赖会自动添加我们构建`Web`应用所需要的其他依赖项，省去了我们依次添加各种`Web`依赖的步骤，非常的方便。最后再加入一个`Spring Boot`的编译插件，最终的`POM`文件如下：
+3、引入支持`Web`项目的`Starter pom`，这个`Starter pom`用来快速引入一些`Maven`的依赖项，比如我们要构建一个`Web`的项目，现在只需要添加一个`spring-boot-starter-web`的一个依赖，这个依赖会自动添加我们构建`Web`应用所需要的其他依赖项，省去了我们依次添加各种`Web`依赖的步骤，非常的方便。最后再加入一个`Spring Boot`的编译插件，我们这里使用的`Spring Boot`版本为`1.4.3.RELEASE`，因为公司项目目前使用这个版本，最终的`POM`文件如下：
 ```xml
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -51,6 +51,7 @@ categories: springboot
     <groupId>com.kevin.hello</groupId>
     <artifactId>hello</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <!--Spring Boot starter-web-->
     <dependencies>
@@ -188,18 +189,158 @@ public class helloViewController {
 5、这样我们就完成了一个返回视图的控制器，现在启动应用，用浏览器访问`http://localhost:8080/index`，就会看到输出`hello World`。
 
 ### JSP 视图
-看到这里，有很多老铁要问了，"能不能使用`JSP`当作模板引擎"。这个问题怎么回答呢，其实`Spring Boot`官方是不推荐在`Spring Boot`的应用中使用`JSP`的，原因当然有很多，不过其中最主要的原因是当使用`JSP`模板引擎时，会有一个特殊的目录结构，`webapp/WEB-INF/jsp`,相信这个目录结构大家肯定不陌生。上文我们说到，`Spring Boot`支持内嵌容器并且可以以`Jar`包的方式运行，那么在打包为`Jar`包时，其实这个目录是不会被打包的，所以，官方不推荐使用`JSP`。当然，这里只是不推荐，也不是说不可以用，我们可以使用修改`POM`文件的方式，在打包时，将`webapp/WEB-INF/jsp`目录复制到`resources`目录，这样就可以正常使用了。不过就目前的状况来看，如果是之前的项目，改造的话可能成本会比较高，可以继续使用`JSP`，新做的项目就不推荐再使用`JSP`了，现在`Spring Boot`支持的模板引擎有很多，包括`FreeMarker`、`Groovy`、`Thymeleaf(官方推荐)`、`Mustache`这些我们都可以自由选择，适合自己的才是最好的。下面我们就来看看`JSP`模板引擎的创建。
-1、修改pom  
-2、添加控制器
-3、添加html
+看到这里，有很多老铁要问了，"能不能使用`JSP`当作模板引擎"。这个问题怎么回答呢，其实`Spring Boot`官方是不推荐在`Spring Boot`的应用中使用`JSP`的，原因当然有很多，不过其中最主要的原因是当使用`JSP`模板引擎时，会有一个特殊的目录结构，`webapp/WEB-INF/jsp`,相信这个目录结构大家肯定不陌生。上文我们说到，`Spring Boot`支持内嵌容器并且可以以`Jar`包的方式运行，那么在打包为`Jar`包时，其实这个目录是不会被打包的，所以，官方不推荐使用`JSP`。当然，这里只是不推荐，也不是说不可以用，我们可以使用修改`POM`文件的方式，在打包时，将`webapp/WEB-INF/jsp`目录复制到`resources`目录，这样就可以正常使用了。不过就目前的状况来看，如果是之前的项目，改造的话可能成本会比较高，可以继续使用`JSP`，新做的项目就不推荐再使用`JSP`了，现在`Spring Boot`支持的模板引擎有很多，包括`FreeMarker`、`Groovy`、`Thymeleaf(官方推荐)`、`Mustache`等，这些我们都可以自由选择，适合自己的才是最好的。下面我们就来看看`JSP`模板引擎的创建。
+1、`POM`文件修改，注释掉`thymeleaf`的相关依赖项，然后添加`JSP`相关依赖，由于我们改变了默认的`Tomcat`版本，变成了`7.0.73`，所以需要再添加一个`tomcat-juli`的依赖。
+```xml
+
+        <!--Spring Boot thymeleaf-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+        <!--</dependency>-->
+
+
+        
+        <!--tomcat 日志组件-->
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-juli</artifactId>
+            <version>${tomcat.version}</version>
+        </dependency>
+
+        <!-- jasp 解析-->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+        </dependency>
+
+        <!-- jstl 解析-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+
+```
+2、添加控制器，添加一个`helloJSPController`的控制器，当请求指向`/indexjsp`时，返回一个`JSP`的视图，并包含一个`hijsp`的对象，代码如下：
+```java
+
+package com.kevin.hello.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+/**
+ * Created by kevin on 2017/9/24.
+ */
+@Controller
+public class helloJSPController {
+
+    @RequestMapping(value="/indexjsp",method = RequestMethod.GET)
+    public ModelAndView indexView(){
+        ModelAndView mv=new ModelAndView("/indexjsp");
+        mv.addObject("hijsp","hello World JSP");
+        return mv;
+    }
+
+}
+
+```
+3、添加`JSP`，在`src/main`下创建`webapp/WEB-INF/jsp`目录，并添加`indexjsp.jsp`文件。
+```xml
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+${hijsp}
+</body>
+</html>
+
+```
 4、配置前缀后缀
+这里需要注意，原来我们在写`Spring MVC`项目时，需要配置一个`dispatcherservlet`作为`MVC`项目的前端控制器，所有的请求都要经过这个控制器，还需要配置一个视图解析器的解析规则。其实，在`Spring Boot`中，这些都已经自动配置了，我们这里需要根据自己的需要来做一些更改，需要在`application.properties`中增加视图解析器的解析规则：
+```xml
 spring.mvc.view.prefix=/WEB-INF/jsp/
 spring.mvc.view.suffix=.jsp
-5、运行 出结果
-6、使用外置tomcat运行
-7、打包为war
-8、打包为jar
+```
+5、这样，所有的配置和准备工作都已经就绪，启动应用，浏览器访问`http://localhost:8080/indexjsp`，就会看到输出`hello World JSP`。
 
+### 打包部署
+#### war
+1、到目前为止，我们都是使用`Spring Boot`内置的`Tomcat`来运行，这样确实方便了不少，不需要配置外部`Tomcat`，特别是团队开发的时候，避免了多人使用的`Tomcat`版本不一致的情况。但是项目终究要完成开发到部署的阶段，在部署的时候，我们有两种选择，一个是使用`jar`包方式，一个是使用`war`包方式。不过有时候受限于公司规定，只能使用某种特定的格式部署，比如我厂规定，只能使用`war`包方式部署应用。下面我就来看看怎样将应用部署在外部`Tomcat`。
+2、首先我们使用外部`Tomcat`来运行一下，确保应用是正确的，在`IntelliJ IDEA`的`run/debug`工具中配置`Tomcat`，这里我们选用的版本是`7.0.73`，与我们项目中内置的版本一致，这里说一下，最好保持内置和外置的`Tomcat`版本一致，不然可能会发生一些未知的错误，这里我们需要将`Spring Boot`的内置`Tomcat`版本替换为`7.0.73`，替换方式为在`POM`文件增加如下配置，我们上面说到使用`parent`的方式引入方便更改`Tomcat`的版本，就在这里，如果使用`dependency`引入，就比较复杂一点，有兴趣的同学可以研究一下。另外我厂的做法是，直接改写`spring-boot-starter-tomcat`组件，在这个`POM`文件中修改`Tomcat`的版本，这样就可以统一管理所有应用的`Tomcat`版本，无需手动指定了。
+```java
+
+    <properties>
+    <tomcat.version>7.0.73</tomcat.version>
+    </properties>
+
+```
+
+3、修改`POM`文件项目属性，`<packaging>war</packaging>`，将打包方式设置为`war`，然后启动项目，浏览器访问`http://localhost:8080/indexjsp`，就会看到输出`hello World JSP`。
+4、使用`Maven`打包命令`mvn package`进行打包，可以看到输出目录`target`下面会生成一个`war`文件，拷贝文件至`Tomcat`的`webapps`目录下，启动`Tomcat`，浏览器访问`http://localhost:8080/indexjsp`，就会看到输出`hello World JSP`。
+#### jar
+1、看到这里，有老铁又要问了，"那我想使用jar包部署怎么办呢"。其实如果是`Tomcat+JSP`的应用，是不建议使用`Jar`包的方式部署的，原因上文已经说过了，但是也不是不可以用，只不过要稍微做一些另外的配置，而且对`Spring Boot`的版本有要求，我的测试结果是版本需要低于`1.4.3.RELEASE`，下面我们使用`1.4.2.RELEASE`版本来试验一下。
+2、使用`JSP`模板
+修改`POM`文件，`<packaging>jar</packaging>`，将打包方式设置为`jar`，添加资源处理工具和入口类。然后使用命令行运行`java -jar yourproject.jar`，就可以启动应用了。其实这里`<packaging>war</packaging>`也是一样的，执行命令`java -jar yourproject.war`也可以启动应用，也就是说在这种配置下，打包出的`war`包既可以部署在外置的`Tomcat`中，也可以直接使用`java`的命令运行。
+```java
+            
+            <!-- maven打包插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <!-- 生成MANIFEST.MF的设置 -->
+                        <manifest>
+                            <!-- jar启动入口类-->
+                            <mainClass>com.kevin.hello.ApplicationStar</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- spring boot打包插件 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.4.2.RELEASE</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+         <resources>
+            <!-- 打包时将jsp文件拷贝到META-INF目录下-->
+            <resource>
+                <!-- 指定resources插件处理哪个目录下的资源文件 -->
+                <directory>src/main/webapp</directory>
+                <!--注意此次必须要放在此目录下才能被访问到-->
+                <targetPath>META-INF/resources</targetPath>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+
+```
+3、使用
 ## 正确踩坑
 1、内置tomcat版本与外置tomcat版本
 2、打包运行方式
