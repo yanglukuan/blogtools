@@ -94,7 +94,7 @@ public class helloController {
 
 
 ```
-5、最后，也是最关键的一个步骤，我们需要一个启动类，也就是一个程序的入口。前面我们提到，`Spring Boot`支持内嵌容器启动，不需要外部容器的支持，能做到这一点，靠的就是这个入口点。我们在`controller`包的外层，也就是`com.kevin.hello`包下面，创建一个`ApplicationStart`的类，这个类只有一个mian方法，就是整个程序的入口。这里有两个地方需要说明一下，第一个，`@SpringBootApplication`注解是整个`Spring Boot`项目的核心注解，它的主要作用是开启自动配置，告诉框架这是一个`Spring Boot`的应用。默认只会扫描类所在包以及其子包，所以，启动类最好放在最外层的包下面。第二个，`main`方法，这个方法其实就是一个标准的`Java`应用的入口方法，在这里启动了一个`SpringApplication`，启动方法是`run`方法,这里完成`Spring`容器的启动和初始化，这个过程比较复杂也比较核心，本文不侧重讲解原理，后续文章会结合源码分析，有兴趣的同学可以自行研究下。
+5、最后，也是最关键的一个步骤，我们需要一个启动类，也就是一个程序的入口。前面我们提到，`Spring Boot`支持内嵌容器启动，不需要外部容器的支持，能做到这一点，靠的就是这个入口点。我们在`controller`包的外层，也就是`com.kevin.hello`包下面，创建一个`ApplicationStart`的类，这个类只有一个`mian`方法，就是整个程序的入口。这里有两个地方需要说明一下，第一个，`@SpringBootApplication`注解是整个`Spring Boot`项目的核心注解，它的主要作用是开启自动配置，告诉框架这是一个`Spring Boot`的应用。默认只会扫描类所在包以及其子包，所以，启动类最好放在最外层的包下面。第二个，`main`方法，这个方法其实就是一个标准的`Java`应用的入口方法，在这里启动了一个`SpringApplication`，启动方法是`run`方法,这里完成`Spring`容器的启动和初始化，这个过程比较复杂也比较核心，本文不侧重讲解原理，后续文章会结合源码分析，有兴趣的同学可以自行研究下。
 ```java
 
 package com.kevin.hello;
@@ -340,58 +340,58 @@ spring.mvc.view.suffix=.jsp
         </resources>
 
 ```
-3、使用
+3、使用`thymeleaf`模板就比较简单了，修改`POM`文件，添加`spring-boot-starter-thymeleaf`依赖，并注释掉`spring-boot-starter-tomcat`，然后执行`Maven`打包命令即可打包，仍然使用命令行`java -jar yourproject.war`来启动应用。
+```java
+
+       <!--Spring Boot thymeleaf-->
+        <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!-- Html 解析-->
+        <dependency>
+        <groupId>net.sourceforge.nekohtml</groupId>
+        <artifactId>nekohtml</artifactId>
+        <version>1.9.22</version>
+        </dependency>
+
+
+        <!--Spring Boot tomcat-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+
+```
+
+## 怎样将spring 项目升级为 spring boot
+老铁，我有一个`Spring`的项目，怎么才能升级为`Spring Boot`。既然`Spring Boot`这么好，那自然是要升级滴，不过面对一个庞大的项目，从哪里入手呢。
+### 升级哪些模块
+一般我们项目都是由很多模块构成的，比如数据访问、业务逻辑处理、前端表现等，在互不影响的前提下，可以先升级部分模块。比如，我们可以先升级前端表现模块，一般是基于`Spring MVC`构建，也比较容易操作，如果条件允许，当然最好整体升级。
+### 从哪里入手
+首先，`Spring Boot`建议使用的配置方式是`JavaConfig`的方式，这种方式更有利于我们理解自己的配置，相对于`XML`的方式书写起来也比较方便，使我们更能集中精力在代码上，而不是在代码和`XML`文件之间来回切换。如果你原来的应用是基于`JavaConfig`的配置，那么恭喜你，已经完成了`50%`的工作，剩下的就是引入`Spring Boot`依赖和配置启动相关的工作了。如果你依然使用`XML`方式的配置你的应用，请首先考虑将`XML`配置转换为`javaconfig`的配置，当然也可以选择不转换，`Spring Boot`也提供导入`XML`配置的方法，只是这样略显麻烦一些。
+经过以上步骤，参照`Spring Boot`官方手册和本例程，相信你也可以构建自己的`Spring Boot`应用了。
+
 ## 正确踩坑
 1、内置tomcat版本与外置tomcat版本
 2、打包运行方式
 
-## 我有一个应用 怎么才能转换成spring boot
+出现各种错误时的解决方法
+可以启动 内置tomcat 404 运行目录设置
+各种 无法启动  pom依赖配置 
+https://my.oschina.net/wenjinglian/blog/1506808
+
+
 
 ## 学习建议
 这种情况下新手很容易写得云里雾里的，因为完全不知道背后的原理是什么，相对比在学习spring时需要深刻理解ioc、搞一堆繁琐的配置来说，的确缺少了被迫跳出舒适区去学习一些原理的过程，那么今天就讲讲，为什么spring boot能够如此简单的让我们迅速上手。
 
 建议先熟悉spring体系的应用和原理，再通过官网示例和各种资料去学习spring boot 
 
-
 ## 参考
-
-spring boot 项目搭建
-
-引入方式 
-1、parent 方式
-```java
-<parent>
-		<!-- Your own application should inherit from spring-boot-starter-parent -->
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.3.RELEASE</version>
-	</parent>
-```
-适用于单模块的项目 
-2、<dependency> 方式
-
-```java
-
-       <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-dependencies</artifactId>
-			<version>1.4.3.RELEASE</version>
-			<type>pom</type>
-			<scope>import</scope>
-       </dependency>
-
-```
-适用于多模块
-一般公司都会有自己的pom管理规范 必须继承公司统一的顶层pom 也就是说所有项目会统一使用一个parent 
-这个时候 就需要使用这种方式引入 
-
-3、改变tomcat版本 
-```java
-	<properties>
-		<tomcat.version>7.0.73</tomcat.version>
-	</properties>
-```
-
+http://www.scienjus.com/spring-boot-summary/
+http://www.cnblogs.com/davidwang456/p/5846513.html
 
 
 运行方式
@@ -418,9 +418,6 @@ JSP
 使用内嵌tomcat运行时如果出现404 则配置运行目录为 $MODULE_DIR$
 
 
-
-
-
 ## 使用
 pom依赖配置 两种引入方式
 
@@ -433,33 +430,4 @@ pom依赖配置 两种引入方式
 与springmvc集成时的javaconfig 启动类放最外层 可以自动扫描所有bean 不用再显示指定扫描
 各种web的配置 继承自WebMvcConfigurerAdapter配置类 实体解析器和静态资源设置  拦截器和过滤器配置 
 
-
-## 问题与解决
-出现各种错误时的解决方法
-可以启动 内置tomcat 404 运行目录设置
-各种 无法启动  pom依赖配置 
-https://my.oschina.net/wenjinglian/blog/1506808
-
-## 实例
-
-
-
-
-http://www.scienjus.com/spring-boot-summary/
-http://www.cnblogs.com/davidwang456/p/5846513.html
-
-
-## spring 
-让我们来看看Spring历史中的一些演化历程。
-
-Spring 1.0的出现彻底改变了我们开发企业级Java应用程序的方式。Spring的依赖注入与声明式事务意味着组件之间再也不存在紧耦合，再也不用重量级的EJB了。这玩意儿不能更好了。
-
-到了Spring 2.0，我们可以在配置里使用自定义的XML命名空间，更小、更简单易懂的配置文件让Spring本身更便于使用。这玩意儿不能更好了。
-
-Spring 2.5让我们有了更优雅的面向注解的依赖注入模型（即@Component和@Autowired注解），以及面向注解的Spring MVC编程模型。不用再去显式地声明应用程序组件了，也不再需要去继承某个基础的控制器类了。这玩意儿不能更好了。
-
-到了Spring 3.0，我们有了一套基于Java的全新配置，它能够取代XML。在Spring 3.1里，一系列以@Enable开头的注解进一步完善了这一特性。终于，我们第一次可以写出一个没有任何XML配置的Spring应用程序了。这玩意儿不能更好了。
-
-Spring 4.0对条件化配置提供了支持，根据应用程序的Classpath、环境和其他因素，运行时决策将决定使用哪些配置，忽略哪些配置。那些决策不需要在构建时通过编写脚本确定了；以前会把选好的配置放在部署的包里，现在情况不同了。这玩意儿不能更好了。
-
-现在轮到Spring Boot了。虽然Spring的每个版本都让我们觉得一切都不能更好了，但Spring Boot还是向我们证明了Spring仍然有巨大的潜力。事实上，我相信Spring Boot是长久以来Java开发历程里最意义深刻、激动人心的东西。
+ 
