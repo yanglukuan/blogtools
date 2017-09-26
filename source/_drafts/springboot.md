@@ -10,18 +10,18 @@ categories: springboot
 ### Spring1.X
 `Spring 1.0`的出现彻底改变了我们开发企业级`Java`应用程序的方式。`Spring`的依赖注入与声明式事务意味着组件之间再也不存在紧耦合，再也不用重量级的`EJB`了。
 ### Spring 2.X
-到了`Spring 2.0`，我们可以在配置里使用自定义的XML命名空间，更小、更简单易懂的配置文件让`Spring`本身更便于使用。`Spring 2.5`让我们有了更优雅的面向注解的依赖注入模型（即`@Component`和`@Autowired`注解），以及面向注解的`Spring MVC`编程模型。不用再去显式地声明应用程序组件了，也不再需要去继承某个基础的控制器类了。
+到了`Spring 2.0`，我们可以在配置里使用自定义的`XML`命名空间，更小、更简单易懂的配置文件让`Spring`本身更便于使用。`Spring 2.5`让我们有了更优雅的面向注解的依赖注入模型（即`@Component`和`@Autowired`注解），以及面向注解的`Spring MVC`编程模型。不用再去显式地声明应用程序组件了，也不再需要去继承某个基础的控制器类了。
 ### Spring 3.X
 到了`Spring 3.0`，我们有了一套基于`Java`的全新配置，它能够取代`XML`。在`Spring 3.1`里，一系列以`@Enable`开头的注解进一步完善了这一特性。终于，我们第一次可以写出一个没有任何`XML`配置的`Spring`应用程序了。
 ### Spring 4.X 
 `Spring 4.0`对条件化配置提供了支持，根据应用程序的`Classpath`、环境和其他因素，运行时决策将决定使用哪些配置，忽略哪些配置。那些决策不需要在构建时通过编写脚本确定了，以前会把选好的配置放在部署的包里，现在情况不同了。
 ### Spring Boot
-今天我们要介绍的是`Spring`众多体系的一员，也是近一两年比较流行的一个框架`Spring Boot`。见名知意，`Boot`是引导的意思，`Spring Boot`就是引导我们快速的开发一个基于`Spring`的应用的一个框架。
+今天我们要介绍的是`Spring`众多体系的一员，也是近一两年比较流行的一个框架`Spring Boot`。见名知意，`Boot`是引导的意思，`Spring Boot`就是引导我们快速开发一个基于`Spring`应用的一个框架。
 >Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can "just run". We take an opinionated view of the Spring platform and third-party libraries so you can get started with minimum fuss. Most Spring Boot applications need very little Spring configuration.
 
 这是`Spring`官网对`Spring Boot`的说明，意思就是说`Spring Boot`可以轻松创建可以独立“运行”的、可用于生产的基于`Spring`的应用程序，由于它整合了`Spring platform`和一些三方库的配置，使我们可以做到真正的开箱即用并且不需要太多的配置。我们可以利用`Spring`官网提供的[`SPRING INITIALIZR`](https://start.spring.io/)工具，快速的创建一个属于我们自己的`Spring Boot`的应用。
 
-其实`Spring Boot`并没有引进新的技术单元，本质还是利用`Spring4.x`的特性将众多的框架(包括`Spring`系列的和一些第三方的)集成在一起，省去了我们手动整合的步骤。`Spring Boot`通过自动配置、快速开始、内置容器等，极大简化了`Spring`应用的开发步骤，它更像一种粘合剂，按照约定大于配置的原则将各种框架和配置都集中的管理起来，当然这种粘合不是强制的，我们可以根据自己的需要增删一些框架和配置，也可以加入自己的配置。
+其实`Spring Boot`并没有引进太多新的技术单元，本质还是利用`Spring4.x`的特性将众多的框架(包括`Spring`系列的和一些第三方的)集成在一起，省去了我们手动整合的步骤。`Spring Boot`通过自动配置、快速开始、内置容器等，极大简化了`Spring`应用的开发步骤，它更像一种粘合剂，按照约定大于配置的原则将各种框架和配置都集中的管理起来，当然这种粘合不是强制的，我们可以根据自己的需要增删一些框架和配置，也可以加入自己的配置。
 
 ## 解决什么问题
 通过上文的分析，我们大概了解了一下`Spring Boot`，每种技术的出现总是有其特定的技术背景。我们知道整个`Spring`框架比较庞大，一般我们常用的比如`Spring mvc`、`Spring aop`等，当我们基于这些框架开始我们的项目的时候，这将是一个无比痛苦的过程。如果是最开始的`Spring 1.x`的时代，我们要写一大堆的配置文件，如果没有`Maven`的帮助，我们还要手动管理无数个框架的`jar`包，即便是现在的`Spring 4.x`的时代，我们有了`Maven`可以帮助我们管理各种`jar`包，包括打包、部署等，我们有了基于`javaconfig`和各种注解的配置，省去了写一堆配置文件的麻烦，但是如果我们的项目比较大，使用了各种不同的框架，这个时候要将这些不同的框架整合在一起，也将会面临诸多的问题，比如`jar`包之间的冲突、各种框架的配置规范等。这个时候就需要有一个统一的框架去做一个整合，一站式的解决各种框架的整合问题，快速的开始一个项目，`Spring Boot`就应运而生了。
@@ -94,7 +94,7 @@ public class helloController {
 
 
 ```
-5、最后，也是最关键的一个步骤，我们需要一个启动类，也就是一个程序的入口。前面我们提到，`Spring Boot`支持内嵌容器启动，不需要外部容器的支持，能做到这一点，靠的就是这个入口点。我们在`controller`包的外层，也就是`com.kevin.hello`包下面，创建一个`ApplicationStart`的类，这个类只有一个`mian`方法，就是整个程序的入口。这里有两个地方需要说明一下，第一个，`@SpringBootApplication`注解是整个`Spring Boot`项目的核心注解，它的主要作用是开启自动配置，告诉框架这是一个`Spring Boot`的应用。默认只会扫描类所在包以及其子包，所以，启动类最好放在最外层的包下面。第二个，`main`方法，这个方法其实就是一个标准的`Java`应用的入口方法，在这里启动了一个`SpringApplication`，启动方法是`run`方法,这里完成`Spring`容器的启动和初始化，这个过程比较复杂也比较核心，本文不侧重讲解原理，后续文章会结合源码分析，有兴趣的同学可以自行研究下。
+5、最后，也是最关键的一个步骤，我们需要一个启动类，也就是一个程序的入口。前面我们提到，`Spring Boot`支持内嵌容器启动，不需要外部容器的支持，能做到这一点，靠的就是这个入口点。我们在`controller`包的外层，也就是`com.kevin.hello`包下面，创建一个`ApplicationStart`的类，这个类只有一个`main`方法，就是整个程序的入口。这里有两个地方需要说明一下，第一个，`@SpringBootApplication`注解是整个`Spring Boot`项目的核心注解，它的主要作用是开启自动配置，告诉`Spring`框架这是一个`Spring Boot`的应用。这个是一个组合注解，包含`ComponentScan`注解，默认只会扫描类所在包以及其子包，所以，启动类最好放在最外层的包下面。第二个，`main`方法，这个方法其实就是一个标准的`Java`应用的入口方法，在这里启动了一个`SpringApplication`，启动方法是`run`方法，这里完成`Spring`容器的启动和初始化，这个过程比较复杂也比较核心，本文不侧重讲解原理，后续文章会结合源码分析，有兴趣的同学可以自行研究下。
 ```java
 
 package com.kevin.hello;
@@ -127,7 +127,7 @@ public class ApplicationStart {
 
 ```
 ### Thymeleaf 视图
-1、上面只是一个特别简单的例子，只输出了一段字符串，并没有引入视图，旨在让大家感受一下`Spring Boot`项目创建的过程和使用方式的便捷，下面我来创建一个带有视图的控制器，在上面的项目中添加一个控制器`helloViewController`，这里我们返回一个视图。下面这段代码的意思是当请求指向`/index`时，返回一个`/index`的视图，并向视图中输出了一个为`hi`的字符串对象，这里模板引擎选择`Thymeleaf`，也是`Spring Boot`官方推荐使用的模板引擎。
+1、上面只是一个特别简单的例子，只输出了一段字符串，并没有引入视图，旨在让大家感受一下`Spring Boot`项目创建的过程和使用方式的便捷，下面我们来创建一个带有视图的控制器，在上面的项目中添加一个控制器`helloViewController`，这里我们返回一个视图。下面这段代码的意思是当请求指向`index`时，返回一个`index`的视图，并向视图中输出了一个为`hi`的字符串对象，这里模板引擎选择`Thymeleaf`，也是`Spring Boot`官方推荐使用的模板引擎。
 ```java
 
 package com.kevin.hello.controller;
@@ -145,7 +145,7 @@ public class helloViewController {
 
     @RequestMapping(value="/index",method = RequestMethod.GET)
     public ModelAndView indexView(){
-        ModelAndView mv=new ModelAndView("/index");
+        ModelAndView mv=new ModelAndView("index");
         mv.addObject("hi","hello World");
         return mv;
     }
@@ -185,11 +185,11 @@ public class helloViewController {
 </html>
 
 ```
-4、在`resources`文件夹下新建配置文件，`application.properties`，设置配置项，`spring.thymeleaf.mode=LEGACYHTML5`。`Spring Boot`允许我们自定义一个`application.properties`文件，来重写`Spring Boot`的环境变量或者定义自己环境变量。
+4、在`resources`文件夹下新建配置文件，`application.properties`，设置配置项，`spring.thymeleaf.mode=LEGACYHTML5`。`Spring Boot`允许我们自定义一个`application.properties`文件，来修改`Spring Boot`的环境变量。
 5、这样我们就完成了一个返回视图的控制器，现在启动应用，用浏览器访问`http://localhost:8080/index`，就会看到输出`hello World`。
 
 ### JSP 视图
-看到这里，有很多老铁要问了，"能不能使用`JSP`当作模板引擎"。这个问题怎么回答呢，其实`Spring Boot`官方是不推荐在`Spring Boot`的应用中使用`JSP`的，原因当然有很多，不过其中最主要的原因是当使用`JSP`模板引擎时，会有一个特殊的目录结构，`webapp/WEB-INF/jsp`,相信这个目录结构大家肯定不陌生。上文我们说到，`Spring Boot`支持内嵌容器并且可以以`Jar`包的方式运行，那么在打包为`Jar`包时，其实这个目录是不会被打包的，所以，官方不推荐使用`JSP`。当然，这里只是不推荐，也不是说不可以用，我们可以使用修改`POM`文件的方式，在打包时，将`webapp/WEB-INF/jsp`目录复制到`resources`目录，这样就可以正常使用了。不过就目前的状况来看，如果是之前的项目，改造的话可能成本会比较高，可以继续使用`JSP`，新做的项目就不推荐再使用`JSP`了，现在`Spring Boot`支持的模板引擎有很多，包括`FreeMarker`、`Groovy`、`Thymeleaf(官方推荐)`、`Mustache`等，这些我们都可以自由选择，适合自己的才是最好的。下面我们就来看看`JSP`模板引擎的创建。
+看到这里，有很多老铁要问了，"能不能使用`JSP`当作模板引擎"。这个问题怎么回答呢，其实`Spring Boot`官方是不推荐在`Spring Boot`的应用中使用`JSP`的，原因当然有很多，不过其中最主要的原因是当使用`JSP`模板引擎时，会有一个特殊的目录结构，`webapp/WEB-INF`，相信这个目录结构大家肯定不陌生。上文我们说到，`Spring Boot`支持内嵌容器并且可以以`Jar`包的方式运行，那么在打包为`Jar`包时，其实这个目录是不会被打包的，所以，官方不推荐使用`JSP`。当然，这里只是不推荐，也不是说不可以用，我们可以使用修改`POM`文件的方式，在打包时，将`webapp/WEB-INF`目录复制到`resources`目录，这样就可以正常使用了。不过就目前的状况来看，如果是之前的项目，改造的话可能成本会比较高，可以继续使用`JSP`，新做的项目就不推荐再使用`JSP`了，现在`Spring Boot`支持的模板引擎有很多，包括`FreeMarker`、`Groovy`、`Thymeleaf(官方推荐)`、`Mustache`等，这些我们都可以自由选择，适合自己的才是最好的。下面我们就来看看`JSP`模板引擎的创建。
 1、`POM`文件修改，注释掉`thymeleaf`的相关依赖项，然后添加`JSP`相关依赖，由于我们改变了默认的`Tomcat`版本，变成了`7.0.73`，所以需要再添加一个`tomcat-juli`的依赖。
 ```xml
 
@@ -247,7 +247,7 @@ public class helloJSPController {
 }
 
 ```
-3、添加`JSP`，在`src/main`下创建`webapp/WEB-INF/jsp`目录，并添加`indexjsp.jsp`文件。
+3、添加`JSP`页面，在`src/main`下创建`webapp/WEB-INF/jsp`目录，并添加`indexjsp.jsp`文件。
 ```xml
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -263,7 +263,7 @@ ${hijsp}
 </html>
 
 ```
-4、配置前缀后缀
+4、配置视图解析前缀后缀
 这里需要注意，原来我们在写`Spring MVC`项目时，需要配置一个`dispatcherservlet`作为`MVC`项目的前端控制器，所有的请求都要经过这个控制器，还需要配置一个视图解析器的解析规则。其实，在`Spring Boot`中，这些都已经自动配置了，我们这里需要根据自己的需要来做一些更改，需要在`application.properties`中增加视图解析器的解析规则：
 ```xml
 spring.mvc.view.prefix=/WEB-INF/jsp/
@@ -273,9 +273,9 @@ spring.mvc.view.suffix=.jsp
 
 ### 打包部署
 #### war
-1、到目前为止，我们都是使用`Spring Boot`内置的`Tomcat`来运行，这样确实方便了不少，不需要配置外部`Tomcat`，特别是团队开发的时候，避免了多人使用的`Tomcat`版本不一致的情况。但是项目终究要完成开发到部署的阶段，在部署的时候，我们有两种选择，一个是使用`jar`包方式，一个是使用`war`包方式。不过有时候受限于公司规定，只能使用某种特定的格式部署，比如我厂规定，只能使用`war`包方式部署应用。下面我就来看看怎样将应用部署在外部`Tomcat`。
+1、到目前为止，我们都是使用`Spring Boot`内置的`Tomcat`来运行，这样确实方便了不少，不需要配置外部`Tomcat`，特别是团队开发的时候，避免了多人使用的`Tomcat`版本不一致的情况。但是项目终究要完成开发到部署的阶段，在部署的时候，我们有两种选择，一个是使用`jar`包方式，一个是使用`war`包方式。不过有时候受限于公司规定，只能使用某种特定的格式部署，比如我厂规定，只能使用`war`包方式部署应用。下面我们就来看看怎样将应用部署在外部`Tomcat`。
 2、首先我们使用外部`Tomcat`来运行一下，确保应用是正确的，在`IntelliJ IDEA`的`run/debug`工具中配置`Tomcat`，这里我们选用的版本是`7.0.73`，与我们项目中内置的版本一致，这里说一下，最好保持内置和外置的`Tomcat`版本一致，不然可能会发生一些未知的错误，这里我们需要将`Spring Boot`的内置`Tomcat`版本替换为`7.0.73`，替换方式为在`POM`文件增加如下配置，我们上面说到使用`parent`的方式引入方便更改`Tomcat`的版本，就在这里，如果使用`dependency`引入，就比较复杂一点，有兴趣的同学可以研究一下。另外我厂的做法是，直接改写`spring-boot-starter-tomcat`组件，在这个`POM`文件中修改`Tomcat`的版本，这样就可以统一管理所有应用的`Tomcat`版本，无需手动指定了。
-```java
+```xml
 
     <properties>
     <tomcat.version>7.0.73</tomcat.version>
@@ -284,12 +284,12 @@ spring.mvc.view.suffix=.jsp
 ```
 
 3、修改`POM`文件项目属性，`<packaging>war</packaging>`，将打包方式设置为`war`，然后启动项目，浏览器访问`http://localhost:8080/indexjsp`，就会看到输出`hello World JSP`。
-4、使用`Maven`打包命令`mvn package`进行打包，可以看到输出目录`target`下面会生成一个`war`文件，拷贝文件至`Tomcat`的`webapps`目录下，启动`Tomcat`，浏览器访问`http://localhost:8080/indexjsp`，就会看到输出`hello World JSP`。
+4、使用`Maven`打包命令`mvn package`进行打包，可以看到输出目录`target`下面会生成一个`war`文件，拷贝文件至`Tomcat`的`webapps`目录下，启动`Tomcat`，浏览器访问`http://localhost:8080/yourproject/indexjsp`，就会看到输出`hello World JSP`。
 #### jar
 1、看到这里，有老铁又要问了，"那我想使用jar包部署怎么办呢"。其实如果是`Tomcat+JSP`的应用，是不建议使用`Jar`包的方式部署的，原因上文已经说过了，但是也不是不可以用，只不过要稍微做一些另外的配置，而且对`Spring Boot`的版本有要求，我的测试结果是版本需要低于`1.4.3.RELEASE`，下面我们使用`1.4.2.RELEASE`版本来试验一下。
 2、使用`JSP`模板
 修改`POM`文件，`<packaging>jar</packaging>`，将打包方式设置为`jar`，添加资源处理工具和入口类。然后使用命令行运行`java -jar yourproject.jar`，就可以启动应用了。其实这里`<packaging>war</packaging>`也是一样的，执行命令`java -jar yourproject.war`也可以启动应用，也就是说在这种配置下，打包出的`war`包既可以部署在外置的`Tomcat`中，也可以直接使用`java`的命令运行。
-```java
+```xml
             
             <!-- maven打包插件 -->
             <plugin>
@@ -341,7 +341,7 @@ spring.mvc.view.suffix=.jsp
 
 ```
 3、使用`thymeleaf`模板就比较简单了，修改`POM`文件，添加`spring-boot-starter-thymeleaf`依赖，并注释掉`spring-boot-starter-tomcat`，然后执行`Maven`打包命令即可打包，仍然使用命令行`java -jar yourproject.war`来启动应用。
-```java
+```xml
 
        <!--Spring Boot thymeleaf-->
         <dependency>
@@ -373,61 +373,18 @@ spring.mvc.view.suffix=.jsp
 首先，`Spring Boot`建议使用的配置方式是`JavaConfig`的方式，这种方式更有利于我们理解自己的配置，相对于`XML`的方式书写起来也比较方便，使我们更能集中精力在代码上，而不是在代码和`XML`文件之间来回切换。如果你原来的应用是基于`JavaConfig`的配置，那么恭喜你，已经完成了`50%`的工作，剩下的就是引入`Spring Boot`依赖和配置启动相关的工作了。如果你依然使用`XML`方式的配置你的应用，请首先考虑将`XML`配置转换为`javaconfig`的配置，当然也可以选择不转换，`Spring Boot`也提供导入`XML`配置的方法，只是这样略显麻烦一些。
 经过以上步骤，参照`Spring Boot`官方手册和本例程，相信你也可以构建自己的`Spring Boot`应用了。
 
-## 正确踩坑
-1、内置tomcat版本与外置tomcat版本
-2、打包运行方式
+## 学习建议
+`Spring Boot`确实给我们带来了极大的便利性，从开发到部署都为我们提供了很好的支持。正如`Spring`的出现让我们开发企业级`Java`应用变的更加方便了一样，`Spring Boot`的出现让我们开发`Spring`应用变的方便了。但是，在我们享受这方便的同时，也要去探究这方便的背后，`Spring`都为我们做了哪些事情。最典型的就是自动配置了，都包含哪些自动配置，自动配置是如何实现，如何不使用自动配置，如何添加自定义配置等，这些问题，我们都要去探究和学习，这样才能更加自如的运用。还有一点，在学习`Spring Boot`之前，一定要有足够的基础知识储备，也就是说，要熟悉`Spring`的架构体系的一些应用和原理，这样学习`Spring Boot`才不会感到吃力。另外一点就是立足官网，`Spring Boot`的官方网站给出了详尽的指导手册和示例，可以说是学习的第一手资料，如果阅读困难的话可以借助翻译软件等,也可以参照书籍和网上的其他资料。
 
-出现各种错误时的解决方法
-可以启动 内置tomcat 404 运行目录设置
-各种 无法启动  pom依赖配置 
+[**示例代码**](https://github.com/yanglukuan/SpringBoot)
+
+
+## 参考
+https://spring.io/guides/gs/spring-boot/
+http://tengj.top/2017/02/26/springboot1/
+http://www.scienjus.com/spring-boot-summary/
 https://my.oschina.net/wenjinglian/blog/1506808
 
 
-
-## 学习建议
-这种情况下新手很容易写得云里雾里的，因为完全不知道背后的原理是什么，相对比在学习spring时需要深刻理解ioc、搞一堆繁琐的配置来说，的确缺少了被迫跳出舒适区去学习一些原理的过程，那么今天就讲讲，为什么spring boot能够如此简单的让我们迅速上手。
-
-建议先熟悉spring体系的应用和原理，再通过官网示例和各种资料去学习spring boot 
-
-## 参考
-http://www.scienjus.com/spring-boot-summary/
-http://www.cnblogs.com/davidwang456/p/5846513.html
-
-
-运行方式
-1、内置tomcat
-2、外置tomcat
-springboot最方便的地方就在于他的开箱即用的特性，就是说不需要做任何的配置，仅仅用几行代码你就可以使用springboot构建一个自己的应用。支持这样的特性的关键在于两个地方，第一是自动配置 想想一直被人诟病的一堆配置文件，这是何等的便捷  第二就是支持内置tomcat，这样就统一了开发了部署环境，特别是团队开发，如果使用外置tomcat，每个人的环境可能会不太一样，而且测试、生产的环境也是开发期间不可控制的因素，使用内置tomcat就比较容易管理，而且启动调试比较方便。
-打包方式
-springboot可以利用内置tomcat将应用与容器一起打成jar包运行，真正做到将环境和应用绑定，不会出现环境不一致的情况，打包部署比使用外置tomcat更加方便，同时也支持原始的war包的形式部署在外部tomcat
-jar
-war
-
-
-JSP
-其实springboot官方是不建议使用jsp来构建应用的，因为jsp特有的目录结构webapp/web-inf/在打包为jar的时候不会被打包进目录，虽然可以通过pom配置的方式复制文件到resources目录下来打包，但是测试下来发现只有在1.4.2.RELEASE及以前的版本有效，所以如果应用打算使用jar包的方式打包部署，还是尽量不要使用jsp。
-不过一般都是在开发阶段使用SpringApplication.run()的方式运行，这种方式使用内置的tomcat来运行程序，打包部署的时候打成war包，使用外部tomcat来运行，但是这里有一点需要注意，内置tomcat的版本一定要与外部的tomcat版本一致，如果不一致会导致上线运行时出现开发时未出现的问题，可以使用`tomcat.version`来指定内置tomcat的版本。
-        
-
-
-外置tomcat + jsp + jar 实例
-
-外置tomcat+jsp+war
-
-内置tomcat+JSP+war
-使用内嵌tomcat运行时如果出现404 则配置运行目录为 $MODULE_DIR$
-
-
-## 使用
-pom依赖配置 两种引入方式
-
-不同引入方式下 tomcat版本替换 
-
-内置tomcat调试时设置目录
-
-打包时 内置tomcat与目标tomcat版本一致
-
-与springmvc集成时的javaconfig 启动类放最外层 可以自动扫描所有bean 不用再显示指定扫描
-各种web的配置 继承自WebMvcConfigurerAdapter配置类 实体解析器和静态资源设置  拦截器和过滤器配置 
 
  
