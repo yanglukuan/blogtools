@@ -24,3 +24,11 @@ Dependency Injection  依赖注入
 ## aop
 Aspect Oriented Programming
 可以通过在编译期间、装载期间或运行期间实现在不修改源代码的情况下给程序动态添加功能的一种技术
+
+## spring mvc
+DispatcherServlet通过继承FrameworkServlet和HttpServletBean而继承了HttpServlet，通过使用Servlet API来对HTTP请求进行响应，成为Spring MVC的前端处理器，同时成为MVC模块与Web容器集成的处理前端。
+
+### 初始化
+在web容器中初始化IOC容器
+
+### 处理请求
