@@ -32,3 +32,36 @@ DispatcherServlet通过继承FrameworkServlet和HttpServletBean而继承了HttpS
 在web容器中初始化IOC容器
 
 ### 处理请求
+请求到达web容器 根据路径映射到DispatcherServlet
+前端控制器分发请求 DispatcherServlet
+HandlerMapping 进行请求处理映射 映射为对应的Controller HandlerMapping将其包装为HandlerExecutionChain
+HandlerAdapter，HandlerAdapter将HandlerExecutionChain中的处理器（Controller）适配为HandlerAdapter
+Controller处理器功能处理方法的调用，HandlerAdapter将会调用处理器的handleRequest方法进行功能处理，该处理方法返回一个ModelAndView给DispatcherServlet
+ViewResolver，InternalResourceViewResolver使用JstlView，具体视图页面在/WEB-INF/jsp/hello.jsp
+JstlView（/WEB-INF/jsp/hello.jsp）——>渲染，将在处理器传入的模型数据(message=HelloWorld！)在视图
+中展示出来；
+返回控制权给DispatcherServlet，由DispatcherServlet返回响应给用户，到此一个流程结束。
+
+### spring2.5之前  
+实现Controller接口 手动配置HandlerMapping和HandlerAdapter
+
+### spring2.5 
+注解支持 @Controller等
+
+### spring3.0 
+RESTful架构风格支持  通过@PathVariable注解和一些其他特性支持
+<mvc:annotation-driven>：
+自动注册基于注解风格的处理器需要的DefaultAnnotationHandlerMapping、
+AnnotationMethodHandlerAdapter
+支持Spring3的ConversionService自动注册
+支持JSR-303验证框架的自动探测并注册（只需把JSR-303实现放置到classpath）
+自动注册相应的HttpMessageConverter（用于支持@RequestBody 和 @ResponseBody）（如XML输入输出转
+换器（只需将JAXP实现放置到classpath）、JSON输入输出转换器（只需将Jackson实现放置到classpath））等。
+
+
+### spring3.1
+@EnableWebMvc：用于在基于Java类定义Bean配置中开启MVC支持，和XML中的<mvc:annotation-driven>功能一
+样；
+新的@Contoller和@RequestMapping注解支持类：处理器映射RequestMappingHandlerMapping 和 处理器适配器
+RequestMappingHandlerAdapter组合来代替Spring2.5开始的处理器映射DefaultAnnotationHandlerMapping和处
+理器适配器AnnotationMethodHandlerAdapter
