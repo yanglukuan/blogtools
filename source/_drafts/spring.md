@@ -42,6 +42,11 @@ JstlView（/WEB-INF/jsp/hello.jsp）——>渲染，将在处理器传入的模�
 中展示出来；
 返回控制权给DispatcherServlet，由DispatcherServlet返回响应给用户，到此一个流程结束。
 
+
+核心
+DispatcherServlet.doDispatch
+ha.handle
+
 ### spring2.5之前  
 实现Controller接口 手动配置HandlerMapping和HandlerAdapter
 
