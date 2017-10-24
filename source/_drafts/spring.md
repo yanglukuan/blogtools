@@ -30,6 +30,8 @@ DispatcherServlet通过继承FrameworkServlet和HttpServletBean而继承了HttpS
 
 ### 初始化
 在web容器中初始化IOC容器
+contextConfigLocation配置文件路径，根据配置文件创建IOC容器。
+ContextLoaderListener建立根IOC容器-->建立web环境的IOC容器，双亲为根容器，(DispatcherServlet持有)-->初始化spring mvc框架(initHandlerMappings、initHandlerAdapters等)-->处理请求
 
 ### 处理请求
 请求到达web容器 根据路径映射到DispatcherServlet
@@ -43,9 +45,13 @@ JstlView（/WEB-INF/jsp/hello.jsp）——>渲染，将在处理器传入的模�
 返回控制权给DispatcherServlet，由DispatcherServlet返回响应给用户，到此一个流程结束。
 
 
-核心
+#### mvc处理核心 
 DispatcherServlet.doDispatch
 ha.handle
+invocableMethod.invokeAndHandle()
+Controller中业务逻辑代码。。。
+if (asyncManager.isConcurrentHandlingStarted()) {}
+
 
 ### spring2.5之前  
 实现Controller接口 手动配置HandlerMapping和HandlerAdapter
