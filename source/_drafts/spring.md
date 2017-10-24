@@ -76,3 +76,4 @@ AnnotationMethodHandlerAdapter
 新的@Contoller和@RequestMapping注解支持类：处理器映射RequestMappingHandlerMapping 和 处理器适配器
 RequestMappingHandlerAdapter组合来代替Spring2.5开始的处理器映射DefaultAnnotationHandlerMapping和处
 理器适配器AnnotationMethodHandlerAdapter
+
