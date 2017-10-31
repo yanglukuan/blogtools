@@ -49,6 +49,8 @@ Spring IoC容器通过读取配置文件中的配置元数
 IoC容器的Bean Reader读取并解析配置文件，根据定义生成BeanDefinition配置元
 数据对象，IoC容器根据BeanDefinition进行实例化、配置及组装Bean。
 
+
+
 ### 依赖注入
 
 依赖注入一般发生在应用第一次通过getBean向容器索取Bean的时候
