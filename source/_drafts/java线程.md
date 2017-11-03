@@ -37,6 +37,23 @@ volatile适用于以下情况。
 synchronized则是由“一个变量在同一个时刻只允许一条线程对其进行lock操作”这条规则获得的，这条规则决定了持有同一个锁的两个同步块只能串行地进入。synchronized可以同时保证可见性、原子性和有序性。
 
 
+遵循先行发生原则，时间先后顺序与先行发生原则之间基本没有太大的关系，所以我们衡量并发安全问题的时候不要受到时间顺序的干扰，一切必须以先行发生原则为准。
+
+程序次序规则（Program Order Rule）：在一个线程内，按照程序代码顺序，书写在前面的操作先行发生于书写在后面的操作。准确地说，应该是控制流顺序而不是程序代码顺序，因为要考虑分支、循环等结构。
+管程锁定规则（Monitor Lock Rule）：一个unlock操作先行发生于后面对同一个锁的lock操作。这里必须强调的是同一个锁，而“后面”是指时间上的先后顺序。
+volatile变量规则（Volatile Variable Rule）：对一个volatile变量的写操作先行发生于后面对这个变量的读操作，这里的“后面”同样是指时间上的先后顺序。
+线程启动规则（Thread Start Rule）：Thread对象的start（）方法先行发生于此线程的每一个动作。
+线程终止规则（Thread Termination Rule）：线程中的所有操作都先行发生于对此线程的终止检测，我们可以通过Thread.join（）方法结束、Thread.isAlive（）的返回值等手段检测到线程已经终止执行。
+线程中断规则（Thread Interruption Rule）：对线程interrupt（）方法的调用先行发生于被中断线程的代码检测到中断事件的发生，可以通过Thread.interrupted（）方法检测到是否有中断发生。
+对象终结规则（Finalizer Rule）：一个对象的初始化完成（构造函数执行结束）先行发生于它的finalize（）方法的开始。
+传递性（Transitivity）：如果操作A先行发生于操作B，操作B先行发生于操作C，那就可以得出操作A先行发生于操作C的结论。
+
+
+线程模型
+1：1
+1：n
+n：m
+
 ###  锁
 
 
@@ -44,3 +61,42 @@ synchronized则是由“一个变量在同一个时刻只允许一条线程对�
 
 
 ### 线程安全
+
+
+
+面试准备
+
+优酷
+集合框架
+基础集合 使用场景  并发场景下的问题  http://calvin1978.blogcn.com/articles/hashmap.html
+多线程集合
+多线程原理
+多线程实现
+线程池 ThreadPoolExecutor
+线程池场景  io秘密集和计算密集 线程大小 http://ifeve.com/how-to-calculate-threadpool-size/
+http://gudong.name/2017/05/03/thread-pool-intro.html
+生产者 消费者问题
+
+jvm
+gc 过程
+可达性分析
+类加载
+内存分析工具
+最常用的命令行工具
+Jstat（jvm即时监控统计信息）
+jmap（heapdump的snapshot）
+jstack（javacore的snapshot）
+
+
+fullgc频繁  查看gc日志==》打印heapdump并分析 jmap打印 用memory analyzer==》查看各内存区域内存大小及分配 
+如果jvm无响应则保存histo内存快照 jmap -histo 然后保存线程信息 jstack `jid` 
+yanggc频繁
+volatile 原理、应用
+synchronized 原理、应用
+
+
+各种技术的原理和使用场景
+spring
+mybatis
+jdbc
+
