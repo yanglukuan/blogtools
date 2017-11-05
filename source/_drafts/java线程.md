@@ -64,39 +64,4 @@ n：m
 
 
 
-面试准备
-
-优酷
-集合框架
-基础集合 使用场景  并发场景下的问题  http://calvin1978.blogcn.com/articles/hashmap.html
-多线程集合
-多线程原理
-多线程实现
-线程池 ThreadPoolExecutor
-线程池场景  io秘密集和计算密集 线程大小 http://ifeve.com/how-to-calculate-threadpool-size/
-http://gudong.name/2017/05/03/thread-pool-intro.html
-生产者 消费者问题
-
-jvm
-gc 过程
-可达性分析
-类加载
-内存分析工具
-最常用的命令行工具
-Jstat（jvm即时监控统计信息）
-jmap（heapdump的snapshot）
-jstack（javacore的snapshot）
-
-
-fullgc频繁  查看gc日志==》打印heapdump并分析 jmap打印 用memory analyzer==》查看各内存区域内存大小及分配 
-如果jvm无响应则保存histo内存快照 jmap -histo 然后保存线程信息 jstack `jid` 
-yanggc频繁
-volatile 原理、应用
-synchronized 原理、应用
-
-
-各种技术的原理和使用场景
-spring
-mybatis
-jdbc
 
