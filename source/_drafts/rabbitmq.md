@@ -46,10 +46,13 @@ Apache ActiveMQ
 Kafka
 
 ### AMQP
-AMQP（高级消息队列协议）是一个网络协议。它支持符合要求的客户端应用（application）和消息中间件代理（messaging middleware broker）之间进行通信。
+AMQP（Advanced Message Queuing Protocol 高级消息队列协议）是一个网络协议。它支持符合要求的客户端应用（application）和消息中间件代理（messaging middleware broker）之间进行通信。
 
 
 ### rabbit
+AMQP信道
+AMQP消息路由：交换器、队列、绑定
+生产者把消息发送到交换器，消息最终达到队列，，并被消费者接收。
 
 
 ### 参考
