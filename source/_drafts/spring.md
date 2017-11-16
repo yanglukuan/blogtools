@@ -49,13 +49,76 @@ Spring IoC容器通过读取配置文件中的配置元数
 IoC容器的Bean Reader读取并解析配置文件，根据定义生成BeanDefinition配置元
 数据对象，IoC容器根据BeanDefinition进行实例化、配置及组装Bean。
 
+**容器启动过程**
+Resource 定位
+ResourceLoader
+载入
+BeanDefinition的载入 BeanDefinitionReader读取、解析Resource定位的资源。将用户定义好的Bean表示成IOC容器的内部数据结构也就是BeanDefinition。在IOC容器内部维护着一个BeanDefinition Map的数据结构，通过这样的数据结构，IOC容器能够对Bean进行更好的管理。
+
+注册
+向IOC容器注册这些BeanDefinition，这个过程是通过BeanDefinitionRegistery接口来实现的。在IOC容器内部其实是将第二个过程解析得到的BeanDefinition注入到一个HashMap容器中，IOC容器就是通过这个HashMap来维护这些BeanDefinition的。这个过程并没有完成依赖注入，依赖注册是发生在应用第一次调用getBean向容器所要Bean时
+
+
+1、IoC容器初始化的入口是在构造方法中调用refresh()开始的。
+2、通过ResourceLoader来完成资源文件位置的定位,DefaultResourceLoader是默认的实现,同时上下文本身就给出了ResourceLoader的实现。
+3、创建的IoC容器是DefaultListableBeanFactory。
+4、IoC容器对Bean的管理和依赖注入功能的实现是通过对其持有的BeanDefinition进行相关操作来完成的。
+5、通过BeanDefinitionReader来完成定义信息的解析和Bean信息的注册。
+6、XmlBeanDefinitionReader是BeanDefinitionReader的实现类，通过它来解析XML配置中的bean定义。
+实际的处理过程是委托给 BeanDefinitionParserDelegate来完成的。得到bean的定义信息，这些信息在Spring中使用BeanDefinition对象来表示。
+7、BeanDefinition的注册是由BeanDefinitionRegistry实现的registerBeanDefinition方法进行的。内部使用ConcurrentHashMap来保存BeanDefinition。
+
+
+**IOC容器分类**
+**BeanFactory**
+基本容器接口 提供最基本的IOC容器功能。在此接口下，提供具体容器实现，比如XmlBeanFactory，可以使用编程的方式使用IOC容器。XmlBeanFactory继承自DefaultListableBeanFactory这个类，在Spring中，实际上是把DefaultListableBeanFactory作为一个默认的功能完整的IoC容器来使用的。编程方式使用XMLBeanFactory步骤：
+1）创建IoC配置文件的抽象资源，这个抽象资源包含了BeanDefinition的定义信息。
+2）创建一个BeanFactory，这里使用DefaultListableBeanFactory。
+3）创建一个载入BeanDefinition的读取器，这里使用XmlBeanDefinitionReader来载入XML文件形式的BeanDefinition，通过一个回调配置给BeanFactory。
+4）从定义好的资源位置读入配置信息，具体的解析过程由XmlBeanDefinitionReader来完成。完成整个载入和注册Bean定义之后，需要的IoC容器就建立起来了。这个时候就可以直接使用IoC容器了
+
+**ApplicationContext**
+高级容器接口，除了基本功能外，还提供一些高级功能，国际化支持、从不同的I/O途径得到Bean定义信息。ApplicationContext与简单的BeanFactory相比，对它的使用是一种面向框架的使用风格，所以一般建议在开发应用时使用ApplicationContext作为IoC容器的基本形式。
+在此接口下，提供具体容器实现，比如FileSystemXmlApplicationContext。
+
+在FileSystemXmlApplicationContext的设计中，我们看到ApplicationContext应用上下文的主要功能已经在FileSystemXmlApplicationContext的基类AbstractXmlApplicationContext中实现了，在FileSystemXmlApplicationContext中，作为一个具体的应用上下文，只需要实现和它自身设计相关的两个功能。
+一个功能是，如果应用直接使用FileSystemXmlApplicationContext，对于实例化这个应用上下文的支持，同时启动IoC容器的refresh（）过程。另一个功能是与FileSystemXmlApplicationContext设计具体相关的功能，这部分与怎样从文件系统中加载XML的Bean定义资源有关。通过这个过程，可以为在文件系统中读取以XML形式存在的BeanDefinition做准备，因为不同的应用上下文实现对应着不同的读取BeanDefinition的方式。
+
+IoC容器的初始化是由前面介绍的**refresh（）**方法来启动的。具体来说，这个启动包括**BeanDefinition的Resouce定位、载入和注册**三个基本过程。
+初始化步骤：
+1、第一个过程是Resource定位过程。这个Resource定位指的是BeanDefinition的资源定位，它由ResourceLoader通过统一的Resource接口来完成，这个Resource对各种形式的BeanDefinition的使用都提供了统一接口。
+对BeanDefinition资源定位的过程由refresh()函数完成。FileSystemXmlBeanFactory构造函数中调用**refresh()**函数，使用的IoC容器是DefultListableBeanFactory，同时，它启动了loadBeanDefinitions来载入BeanDefinition。通过ResourceLoader来完成资源文件位置的定位。
+2、第二个过程是BeanDefinition的载入。这个载入过程是把用户定义好的Bean表示成IoC容器内部的数据结构，而这个容器内部的数据结构就是BeanDefinition。
+对IoC容器来说，这个载入过程，相当于把定义的BeanDefinition在IoC容器中转化成一个Spring内部表示的数据结构的过程。IoC容器对Bean的管理和依赖注入功能的实现，是通过对其持有的BeanDefinition进行各种相关操作来完成的。这些BeanDefinition数据在IoC容器中通过一个HashMap来保持和维护。
+3、第三个过程是向IoC容器注册这些BeanDefinition的过程。这个过程是通过调用BeanDefinitionRegistry接口的实现来完成的。这个注册过程把载入过程中解析得到的。BeanDefinition向IoC容器进行注册。通过分析，我们可以看到，在IoC容器内部将BeanDefinition注入到一个HashMap中去，IoC容器就是通过这个HashMap来持有这些BeanDefinition数据的。
+4、在Spring IoC的设计中，Bean定义的载入和依赖注入是两个独立的过程。依赖注入一般发生在应用第一次通过getBean向容器索取Bean的时候。
+
+
+1、读取配置，定位resource,ResourceLoader来完成资源文件位置的定位。
+2、创建Beanfactory
+3、创建BeanDefinitionReader，载入BeanDefinition，使用方法loadBeanDefinitions
+4、BeanDefinitionRegistry完成BeanDefinition注册，存放在ConcurrentHashMap中
+5、完成了BeanDefinition的注册，就完成了IoC容器的初始化过程。此时，在使用的IoC容器DefaultListableBeanFactory中已经建立了整个Bean的配置信息，而且这些BeanDefinition已经可以被容器使用了，它们都在beanDefinitionMap里被检索和使用
+
 
 
 ### 依赖注入
 
-依赖注入一般发生在应用第一次通过getBean向容器索取Bean的时候
+依赖注入一般发生在应用第一次通过getBean向容器索取Bean的时候。
 
-### IOC工作方式
+getBean是依赖注入的起点，之后会调用createBean，下面通过createBean代码来了解这个实现过程。在这个过程中，Bean对象会依据BeanDefinition定义的要求生成。在AbstractAutowireCapableBeanFactory中实现了这个createBean, createBean不但生成了需要的Bean，还对Bean初始化进行了处理，比如实现了在BeanDefinition中的init-method属性定义，Bean后置处理器等。
+
+在Bean的创建和对象依赖注入的过程中，需要依据BeanDefinition中的信息来递归地完成依赖注入。
+
+### Bean生命周期
+
+IoC容器中的Bean生命周期。
+❍Bean实例的创建。
+❍为Bean实例设置属性。
+❍调用Bean的初始化方法。
+❍应用可以通过IoC容器使用Bean。
+❍当容器关闭时，调用Bean的销毁方法。
+
 
 ## aop
 Aspect Oriented Programming
@@ -64,7 +127,11 @@ Aspect Oriented Programming
 ## spring mvc
 DispatcherServlet通过继承FrameworkServlet和HttpServletBean而继承了HttpServlet，通过使用Servlet API来对HTTP请求进行响应，成为Spring MVC的前端处理器，同时成为MVC模块与Web容器集成的处理前端。
 
+
 ### 初始化
+ContextLoaderListener中创建Spring容器主要用于整个Web应用程序需要共享的一些组件，比如DAO、数据库的ConnectionFactory等；而由DispatcherServlet创建的SpringMVC的容器主要用于和该Servlet相关的一些组件，比如Controller、ViewResovler等
+http://blog.csdn.net/justloveyou_/article/details/74295728
+
 在web容器中初始化IOC容器
 contextConfigLocation配置文件路径，根据配置文件创建IOC容器。
 ContextLoaderListener建立根IOC容器-->建立web环境的IOC容器，双亲为根容器，(DispatcherServlet持有)-->初始化spring mvc框架(initHandlerMappings、initHandlerAdapters等)-->处理请求
@@ -80,8 +147,23 @@ JstlView（/WEB-INF/jsp/hello.jsp）——>渲染，将在处理器传入的模�
 中展示出来；
 返回控制权给DispatcherServlet，由DispatcherServlet返回响应给用户，到此一个流程结束。
 
+**HandlerAdapter**
+在HandlerMapping返回处理请求的Controller实例后，需要一个帮助定位具体请求方法的处理类，这个类就是HandlerAdapter，HandlerAdapter是处理器适配器，Spring MVC通过HandlerAdapter来实际调用处理函数。例如Spring MVC自动注册的AnnotationMethodHandlerAdpater，HandlerAdapter定义了如何处理请求的策略，通过请求url、请求Method和处理器的requestMapping定义，最终确定使用处理类的哪个方法来处理请求，并检查处理类相应处理方法的参数以及相关的Annotation配置，确定如何转换需要的参数传入调用方法，并最终调用返回ModelAndView。DispatcherServlet中根据HandlerMapping找到对应的handler method后，首先检查当前工程中注册的所有可用的handlerAdapter，根据handlerAdapter中的supports方法找到可以使用的handlerAdapter。通过调用handlerAdapter中的handler方法来处理及准备handler method的参数及annotation(这就是spring mvc如何将request中的参数变成handle method中的输入参数的地方)，最终调用实际的handler method。
+
+
 
 #### mvc处理核心 
+**流程**
+1、用户向服务器发送请求，请求被Spring 前端控制Servelt DispatcherServlet捕获；
+2、DispatcherServlet对请求URL进行解析，得到请求资源标识符（URI）。然后根据该URI，调用 HandlerMapping获得该Handler配置的所有相关的对象（包括Handler对象以及Handler对象对应的拦截器），最后以 HandlerExecutionChain对象的形式返回；
+3、DispatcherServlet 根据获得的Handler，选择一个合适的HandlerAdapter。（附注：如果成功获得HandlerAdapter后，此时将开始执行拦截器的preHandler(...)方法）
+4、提取Request中的模型数据，填充Handler入参，开始执行Handler（Controller)。 在填充Handler的入参过程中，根据你的配置，Spring将帮你做一些额外的工作：HttpMessageConveter： 将请求消息（如Json、xml等数据）转换成一个对象，将对象转换为指定的响应信息；数据转换：对请求消息进行数据转换。如String转换成Integer、Double等；数据根式化：对请求消息进行数据格式化。 如将字符串转换成格式化数字或格式化日期等；数据验证： 验证数据的有效性（长度、格式等），验证结果存储到BindingResult或Error中
+5、Handler执行完成后，向DispatcherServlet 返回一个ModelAndView对象；
+6、根据返回的ModelAndView，选择一个适合的ViewResolver（必须是已经注册到Spring容器中的ViewResolver)返回给DispatcherServlet
+7、ViewResolver 结合Model和View，来渲染视图
+8、将渲染结果返回给客户端。
+
+**代码**
 DispatcherServlet.doDispatch
 ha.handle
 invocableMethod.invokeAndHandle()
