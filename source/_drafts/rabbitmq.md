@@ -54,6 +54,8 @@ AMQP信道
 AMQP消息路由：交换器、队列、绑定
 生产者把消息发送到交换器，消息最终达到队列，，并被消费者接收。
 
+http://www.cnblogs.com/diegodu/p/4971586.html
+
 #### 集群
 http://www.cnblogs.com/knowledgesea/p/6535766.html
 http://chyufly.github.io/blog/2016/04/10/rabbitmq-cluster/
