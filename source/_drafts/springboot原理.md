@@ -56,3 +56,8 @@ pom依赖配置 两种引入方式
 
 与springmvc集成时的javaconfig 启动类放最外层 可以自动扫描所有bean 不用再显示指定扫描
 各种web的配置 继承自WebMvcConfigurerAdapter配置类 实体解析器和静态资源设置  拦截器和过滤器配置 
+
+
+#### springboot实战
+http://www.cnblogs.com/yjmyzz/archive/2017/06.html
+
