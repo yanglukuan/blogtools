@@ -14,7 +14,7 @@ Spring的目标在于让Java EE的开发变得更容易，这就意味着Spring�
 IOC、AOP
 
 ## ioc
-inversion of control  依赖反转               
+inversion of control  控制反转               
 Dependency Injection  依赖注入
 在面向对象编程领域中，依赖反转原则（Dependency inversion principle，DIP）是指一种特定的解耦（传统的依赖关系创建在高层次上，而具体的策略设置则应用在低层次的模块上）形式，使得高层次的模块不依赖于低层次的模块的实现细节，依赖关系被颠倒（反转），从而使得低层次模块依赖于高层次模块的需求抽象。
 该原则规定：
@@ -134,7 +134,7 @@ http://blog.csdn.net/justloveyou_/article/details/74295728
 
 在web容器中初始化IOC容器
 contextConfigLocation配置文件路径，根据配置文件创建IOC容器。
-ContextLoaderListener建立根IOC容器-->建立web环境的IOC容器，双亲为根容器，(DispatcherServlet持有)-->初始化spring mvc框架(initHandlerMappings、initHandlerAdapters等)-->处理请求
+ContextLoaderListener建立根IOC容器（WebApplicationContext）-->建立web环境的IOC容器，双亲为根容器（DispatcherServlet上下文在初始化的时候会建立自己的IoC上下文，用以持有spring mvc相关的bean），(DispatcherServlet持有)-->初始化spring mvc框架(initHandlerMappings、initHandlerAdapters等)-->处理请求
 
 ### 处理请求
 请求到达web容器 根据路径映射到DispatcherServlet
